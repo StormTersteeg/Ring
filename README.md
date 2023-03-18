@@ -1,6 +1,6 @@
 # Ring - C# Notification System
 
-Ring is a web application that can be used to notify/message people on a local network.
+Ring is a web application that can be used to notify/message people on a local network. Sound effects are played upon receiving messages/notifications.
 I wrote this project to learn how to use C# API's and Dependency Injections.
 
 This project only contains very basic client side security.
