@@ -2,6 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+var play_audio = false;
 var audio_on = document.getElementById("audio_on");
 var audio_ping = document.getElementById("audio_ping");
 var audio_message = document.getElementById("audio_message");
@@ -44,12 +45,20 @@ function IsNameTaken() {
 
 function GetNotifications() {
     $.get(`/l/notifications/${username}`, function (data) {
-        if (data.length==2) {
-            audio_message.play()
-            alert(data[0] + " says: " + decodeURIComponent(data[1]));
+        if (data.length == 2) {
+            if (play_audio) {
+                audio_message.pause()
+                audio_message.currentTime = 0
+                audio_message.play()
+            }
+            AddLog(data[0] + " says: " + decodeURIComponent(data[1]), "success")
         } else if (data.length == 1) {
-            audio_ping.play()
-            alert(data + " notified you!");
+            if (play_audio) {
+                audio_ping.pause()
+                audio_ping.currentTime = 0
+                audio_ping.play()
+            }
+            AddLog(data + " notified you!", "info")
         }
     });
 }
@@ -79,6 +88,20 @@ function GetUsers() {
     });
 }
 
+function AddLog(message, color) {
+    var current_time = 
+        document.getElementById("log").innerHTML = `
+    <div class="m-2 alert alert-${color}" role="alert">
+    <p class="mb-0">${message}</p>
+    <p class="mb-0 text-muted">${currentTime()}</p>
+    </div>` + document.getElementById("log").innerHTML
+}
+
+function currentTime() {
+    var systemTime = new Date();
+    return `${ systemTime.getHours() }:${ systemTime.getMinutes() }`;
+}
+
 function Logout() {
     $.get(`/l/remove/${username}`, function () {
         window.location.href = "/";
@@ -89,5 +112,5 @@ if (username != "") {
     setInterval(function () {
         GetNotifications()
         GetUsers()
-    }, 1000);
+    }, 500);
 }

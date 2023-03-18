@@ -26,26 +26,35 @@
         <audio id="audio_on"><source src="audio/audio_on.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
         <audio id="audio_message"><source src="audio/message.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
 
-        <div class="text-center mt-5">
-            <h1>
-                <span>@Model</span>
-                <span class="badge badge-light" onclick="this.innerHTML = '🔉'; audio_on.play()">🔇</span>
-                <span class="badge badge-light" onclick="Logout()">❌</span>
-            </h1>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="text-center mt-5">
+                        <h1>
+                            <span>@Model</span>
+                            <span class="badge badge-light" onclick="this.innerHTML = '🔉'; audio_on.play(); play_audio = true">🔇</span>
+                            <span class="badge badge-light" onclick="Logout()">❌</span>
+                        </h1>
 
-            <hr />
+                        <hr />
 
-            <div id="users">
-                @foreach (string user in C.GetUsers())
-                {
-                    if (!Model.Equals(user)) {
-                <h2>
-                    <span>@user</span>
-                    <span class="badge badge-info" onclick="Message(this, '@user')">message</span>
-                    <span class="badge badge-info" onclick="Ring(this, '@user')">ring</span>
-                </h2>
+                        <div id="users">
+                            @foreach (string user in C.GetUsers())
+                            {
+                                if (!Model.Equals(user)) {
+                            <h2>
+                                <span>@user</span>
+                                <span class="badge badge-info" onclick="Message(this, '@user')">message</span>
+                                <span class="badge badge-info" onclick="Ring(this, '@user')">ring</span>
+                            </h2>
+                                    }
                         }
-            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="log" class="bg-light p-2 mt-5 h-100 w-100"></div>
+                </div>
             </div>
         </div>
     }
